@@ -8,11 +8,11 @@ import (
 	"strconv"
 )
 
-type ServerService struct {
+type SkaletService struct {
 	client Client
 }
 
-type Server struct {
+type Skalet struct {
 	Hostname        string        `json:"hostname,omitempty"`
 	Locked          bool          `json:"locked,omitempty"`
 	Locations       string        `json:"locations,omitempty"`
@@ -49,19 +49,19 @@ type Task struct {
 	DEnd     string `json:"d_end,omitempty"`
 }
 
-func (s *ServerService) List() (*[]Server, *http.Response, error) {
+func (s *SkaletService) List() (*[]Skalet, *http.Response, error) {
 
-	servers := new([]Server)
+	skalets := new([]Skalet)
 
-	res, err := s.client.ExecuteRequest("GET", "scalets", []byte{}, servers)
+	res, err := s.client.ExecuteRequest("GET", "scalets", []byte{}, skalets)
 
-	return servers, res, err
+	return skalets, res, err
 }
 
-func (s *ServerService) Create(makeFrom, rplan, name, password, location string, doStart bool,
-	keys []int64, wait bool) (*Server, *http.Response, error) {
+func (s *SkaletService) Create(makeFrom, rplan, name, password, location string, doStart bool,
+	keys []int64, wait bool) (*Skalet, *http.Response, error) {
 
-	server := new(Server)
+	skalet := new(Skalet)
 
 	conn := new(websocket.Conn)
 	var wsserr error
@@ -83,19 +83,19 @@ func (s *ServerService) Create(makeFrom, rplan, name, password, location string,
 
 	b, _ := json.Marshal(body)
 
-	res, err := s.client.ExecuteRequest("POST", "scalets", b, server)
+	res, err := s.client.ExecuteRequest("POST", "scalets", b, skalet)
 
 	if wait && wsserr == nil && res.Header.Get("VSCALE-TASK-ID") != "" {
 		_, err := s.client.WaitTask(conn, res.Header.Get("VSCALE-TASK-ID"))
-		return server, res, err
+		return skalet, res, err
 	}
 
-	return server, res, err
+	return skalet, res, err
 }
 
-func (s *ServerService) Remove(CTID int64, wait bool) (*Server, *http.Response, error) {
+func (s *SkaletService) Remove(CTID int64, wait bool) (*Skalet, *http.Response, error) {
 
-	server := new(Server)
+	skalet := new(Skalet)
 
 	conn := new(websocket.Conn)
 	var wsserr error
@@ -105,28 +105,28 @@ func (s *ServerService) Remove(CTID int64, wait bool) (*Server, *http.Response, 
 		defer conn.Close()
 	}
 
-	res, err := s.client.ExecuteRequest("DELETE", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10)), []byte{}, server)
+	res, err := s.client.ExecuteRequest("DELETE", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10)), []byte{}, skalet)
 
 	if wait && wsserr == nil && res.Header.Get("VSCALE-TASK-ID") != "" {
 		_, err := s.client.WaitTask(conn, res.Header.Get("VSCALE-TASK-ID"))
-		return server, res, err
+		return skalet, res, err
 	}
 
-	return server, res, err
+	return skalet, res, err
 }
 
-func (s *ServerService) Get(CTID int64) (*Server, *http.Response, error) {
+func (s *SkaletService) Get(CTID int64) (*Skalet, *http.Response, error) {
 
-	server := new(Server)
+	skalet := new(Skalet)
 
-	res, err := s.client.ExecuteRequest("GET", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10)), []byte{}, server)
+	res, err := s.client.ExecuteRequest("GET", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10)), []byte{}, skalet)
 
-	return server, res, err
+	return skalet, res, err
 }
 
-func (s *ServerService) Restart(CTID int64, wait bool) (*Server, *http.Response, error) {
+func (s *SkaletService) Restart(CTID int64, wait bool) (*Skalet, *http.Response, error) {
 
-	server := new(Server)
+	skalet := new(Skalet)
 
 	conn := new(websocket.Conn)
 	var wsserr error
@@ -136,19 +136,19 @@ func (s *ServerService) Restart(CTID int64, wait bool) (*Server, *http.Response,
 		defer conn.Close()
 	}
 
-	res, err := s.client.ExecuteRequest("PATCH", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10), "/restart"), []byte{}, server)
+	res, err := s.client.ExecuteRequest("PATCH", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10), "/restart"), []byte{}, skalet)
 
 	if wait && wsserr == nil && res.Header.Get("VSCALE-TASK-ID") != "" {
 		_, err := s.client.WaitTask(conn, res.Header.Get("VSCALE-TASK-ID"))
-		return server, res, err
+		return skalet, res, err
 	}
 
-	return server, res, err
+	return skalet, res, err
 }
 
-func (s *ServerService) Rebuild(CTID int64, wait bool) (*Server, *http.Response, error) {
+func (s *SkaletService) Rebuild(CTID int64, wait bool) (*Skalet, *http.Response, error) {
 
-	server := new(Server)
+	skalet := new(Skalet)
 
 	conn := new(websocket.Conn)
 	var wsserr error
@@ -158,19 +158,19 @@ func (s *ServerService) Rebuild(CTID int64, wait bool) (*Server, *http.Response,
 		defer conn.Close()
 	}
 
-	res, err := s.client.ExecuteRequest("PATCH", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10), "/rebuild"), []byte{}, server)
+	res, err := s.client.ExecuteRequest("PATCH", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10), "/rebuild"), []byte{}, skalet)
 
 	if wait && wsserr == nil && res.Header.Get("VSCALE-TASK-ID") != "" {
 		_, err := s.client.WaitTask(conn, res.Header.Get("VSCALE-TASK-ID"))
-		return server, res, err
+		return skalet, res, err
 	}
 
-	return server, res, err
+	return skalet, res, err
 }
 
-func (s *ServerService) Stop(CTID int64, wait bool) (*Server, *http.Response, error) {
+func (s *SkaletService) Stop(CTID int64, wait bool) (*Skalet, *http.Response, error) {
 
-	server := new(Server)
+	skalet := new(Skalet)
 
 	conn := new(websocket.Conn)
 	var wsserr error
@@ -180,19 +180,19 @@ func (s *ServerService) Stop(CTID int64, wait bool) (*Server, *http.Response, er
 		defer conn.Close()
 	}
 
-	res, err := s.client.ExecuteRequest("PATCH", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10), "/stop"), []byte{}, server)
+	res, err := s.client.ExecuteRequest("PATCH", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10), "/stop"), []byte{}, skalet)
 
 	if wait && wsserr == nil && res.Header.Get("VSCALE-TASK-ID") != "" {
 		_, err := s.client.WaitTask(conn, res.Header.Get("VSCALE-TASK-ID"))
-		return server, res, err
+		return skalet, res, err
 	}
 
-	return server, res, err
+	return skalet, res, err
 }
 
-func (s *ServerService) Start(CTID int64, wait bool) (*Server, *http.Response, error) {
+func (s *SkaletService) Start(CTID int64, wait bool) (*Skalet, *http.Response, error) {
 
-	server := new(Server)
+	skalet := new(Skalet)
 
 	conn := new(websocket.Conn)
 	var wsserr error
@@ -202,19 +202,19 @@ func (s *ServerService) Start(CTID int64, wait bool) (*Server, *http.Response, e
 		defer conn.Close()
 	}
 
-	res, err := s.client.ExecuteRequest("PATCH", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10), "/start"), []byte{}, server)
+	res, err := s.client.ExecuteRequest("PATCH", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10), "/start"), []byte{}, skalet)
 
 	if wait && wsserr == nil && res.Header.Get("VSCALE-TASK-ID") != "" {
 		_, err := s.client.WaitTask(conn, res.Header.Get("VSCALE-TASK-ID"))
-		return server, res, err
+		return skalet, res, err
 	}
 
-	return server, res, err
+	return skalet, res, err
 }
 
-func (s *ServerService) Upgrade(CTID int64, rplan string, wait bool) (*Server, *http.Response, error) {
+func (s *SkaletService) Upgrade(CTID int64, rplan string, wait bool) (*Skalet, *http.Response, error) {
 
-	server := new(Server)
+	skalet := new(Skalet)
 
 	body := struct {
 		Rplan string `json:"rplan,omitempty"`
@@ -230,17 +230,17 @@ func (s *ServerService) Upgrade(CTID int64, rplan string, wait bool) (*Server, *
 		defer conn.Close()
 	}
 
-	res, err := s.client.ExecuteRequest("POST", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10), "/upgrade"), b, server)
+	res, err := s.client.ExecuteRequest("POST", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10), "/upgrade"), b, skalet)
 
 	if wait && wsserr == nil && res.Header.Get("VSCALE-TASK-ID") != "" {
 		_, err := s.client.WaitTask(conn, res.Header.Get("VSCALE-TASK-ID"))
-		return server, res, err
+		return skalet, res, err
 	}
 
-	return server, res, err
+	return skalet, res, err
 }
 
-func (s *ServerService) Tasks() (*[]Task, *http.Response, error) {
+func (s *SkaletService) Tasks() (*[]Task, *http.Response, error) {
 
 	tasks := new([]Task)
 
@@ -249,9 +249,9 @@ func (s *ServerService) Tasks() (*[]Task, *http.Response, error) {
 	return tasks, res, err
 }
 
-func (s *ServerService) AddSSHKeys(CTID int64, keys []int64) (*Server, *http.Response, error) {
+func (s *SkaletService) AddSSHKeys(CTID int64, keys []int64) (*Skalet, *http.Response, error) {
 
-	server := new(Server)
+	skalet := new(Skalet)
 
 	body := struct {
 		Keys []int64 `json:"keys,omitempty"`
@@ -259,7 +259,7 @@ func (s *ServerService) AddSSHKeys(CTID int64, keys []int64) (*Server, *http.Res
 
 	b, _ := json.Marshal(body)
 
-	res, err := s.client.ExecuteRequest("PATCH", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10)), b, server)
+	res, err := s.client.ExecuteRequest("PATCH", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10)), b, skalet)
 
-	return server, res, err
+	return skalet, res, err
 }
