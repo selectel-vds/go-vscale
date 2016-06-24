@@ -13,7 +13,7 @@ func TestAccountService_Get(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	account, _, err := client.AccountService.Get()
+	account, _, err := client.Account.Get()
 	if err != nil {
 		t.Error(err)
 		return

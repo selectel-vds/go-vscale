@@ -18,7 +18,7 @@ func TestSSHKeyService_List(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.SSHKeyService.List()
+	_, _, err = client.SSHKey.List()
 	if err != nil {
 		t.Error(err)
 		return
@@ -37,7 +37,7 @@ func TestSSHKeyService_Create(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	sshkey, _, err := client.SSHKeyService.Create(Key, KeyName)
+	sshkey, _, err := client.SSHKey.Create(Key, KeyName)
 	if err != nil {
 		t.Error(err)
 		return
@@ -60,7 +60,7 @@ func TestSSHKeyService_Remove(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.SSHKeyService.Remove(TestKeyID)
+	_, _, err = client.SSHKey.Remove(TestKeyID)
 	if err != nil {
 		t.Error(err)
 		return

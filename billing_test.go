@@ -13,7 +13,7 @@ func TestBillingService_Billing(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	billing, _, err := client.BillingService.Billing()
+	billing, _, err := client.Billing.Billing()
 	if err != nil {
 		t.Error(err)
 		return
@@ -37,7 +37,7 @@ func TestBillingService_Payments(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.BillingService.Payments()
+	_, _, err = client.Billing.Payments()
 	if err != nil {
 		t.Error(err)
 		return
@@ -56,7 +56,7 @@ func TestBillingService_Consumption(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.BillingService.Consumption("2016-06-01", "2016-06-30")
+	_, _, err = client.Billing.Consumption("2016-06-01", "2016-06-30")
 	if err != nil {
 		t.Error(err)
 		return
