@@ -10,7 +10,7 @@ var KeyID int64 = 4639
 var AdditionalKeyID int64 = 4674
 var UpgradePlan string = "medium"
 
-func TestServerService_List(t *testing.T) {
+func TestScaletService_List(t *testing.T) {
 
 	token, err := GetToken()
 	if err != nil {
@@ -19,7 +19,7 @@ func TestServerService_List(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.Server.List()
+	_, _, err = client.Scalet.List()
 	if err != nil {
 		t.Error(err)
 		return
@@ -29,7 +29,7 @@ func TestServerService_List(t *testing.T) {
 
 }
 
-func TestServerService_Create(t *testing.T) {
+func TestScaletService_Create(t *testing.T) {
 
 	token, err := GetToken()
 	if err != nil {
@@ -38,7 +38,7 @@ func TestServerService_Create(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	server, _, err := client.Server.Create("ubuntu_16.04_64_001_master", "small", "test-1",
+	scalet, _, err := client.Scalet.Create("ubuntu_16.04_64_001_master", "small", "test-1",
 		"", "spb0", true, []int64{KeyID}, true)
 
 	if err != nil {
@@ -46,15 +46,15 @@ func TestServerService_Create(t *testing.T) {
 		return
 	}
 
-	if server.Name == "" {
-		t.Error("Server name can\t be empty")
+	if scalet.Name == "" {
+		t.Error("Scalet name can\t be empty")
 		return
 	}
 
 	return
 }
 
-func TestServerService_Remove(t *testing.T) {
+func TestScaletService_Remove(t *testing.T) {
 
 	token, err := GetToken()
 	if err != nil {
@@ -63,7 +63,7 @@ func TestServerService_Remove(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.Server.Remove(35758, true)
+	_, _, err = client.Scalet.Remove(35758, true)
 	if err != nil {
 		t.Error(err)
 		return
@@ -73,7 +73,7 @@ func TestServerService_Remove(t *testing.T) {
 
 }
 
-func TestServerService_Get(t *testing.T) {
+func TestScaletService_Get(t *testing.T) {
 
 	token, err := GetToken()
 	if err != nil {
@@ -82,22 +82,22 @@ func TestServerService_Get(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	server, _, err := client.Server.Get(CTID)
+	scalet, _, err := client.Scalet.Get(CTID)
 
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	if server.Name == "" {
-		t.Error("Server name is empty")
+	if scalet.Name == "" {
+		t.Error("Scalet name is empty")
 		return
 	}
 
 	return
 }
 
-func TestServerService_Restart(t *testing.T) {
+func TestScaletService_Restart(t *testing.T) {
 
 	token, err := GetToken()
 	if err != nil {
@@ -106,22 +106,22 @@ func TestServerService_Restart(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	server, _, err := client.Server.Restart(35758, true)
+	scalet, _, err := client.Scalet.Restart(35758, true)
 
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	if server.Name == "" {
-		t.Error("Server name is empty")
+	if scalet.Name == "" {
+		t.Error("Scalet name is empty")
 		return
 	}
 
 	return
 }
 
-func TestServerService_Rebuild(t *testing.T) {
+func TestScaletService_Rebuild(t *testing.T) {
 
 	token, err := GetToken()
 	if err != nil {
@@ -130,22 +130,22 @@ func TestServerService_Rebuild(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	server, _, err := client.Server.Rebuild(35758, true)
+	scalet, _, err := client.Scalet.Rebuild(35758, true)
 
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	if server.Name == "" {
-		t.Error("Server name is empty")
+	if scalet.Name == "" {
+		t.Error("Scalet name is empty")
 		return
 	}
 
 	return
 }
 
-func TestServerService_Stop(t *testing.T) {
+func TestScaletService_Stop(t *testing.T) {
 
 	token, err := GetToken()
 	if err != nil {
@@ -154,22 +154,22 @@ func TestServerService_Stop(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	server, _, err := client.Server.Stop(35758, true)
+	scalet, _, err := client.Scalet.Stop(35758, true)
 
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	if server.Name == "" {
-		t.Error("Server name is empty")
+	if scalet.Name == "" {
+		t.Error("Scalet name is empty")
 		return
 	}
 
 	return
 }
 
-func TestServerService_Start(t *testing.T) {
+func TestScaletService_Start(t *testing.T) {
 
 	token, err := GetToken()
 	if err != nil {
@@ -178,22 +178,22 @@ func TestServerService_Start(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	server, _, err := client.Server.Start(35758, true)
+	scalet, _, err := client.Scalet.Start(35758, true)
 
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	if server.Name == "" {
-		t.Error("Server name is empty")
+	if scalet.Name == "" {
+		t.Error("Scalet name is empty")
 		return
 	}
 
 	return
 }
 
-func TestServerService_Uprade(t *testing.T) {
+func TestScaletService_Uprade(t *testing.T) {
 
 	token, err := GetToken()
 	if err != nil {
@@ -202,22 +202,22 @@ func TestServerService_Uprade(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	server, _, err := client.Server.Upgrade(35758, UpgradePlan, true)
+	scalet, _, err := client.Scalet.Upgrade(35758, UpgradePlan, true)
 
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	if server.Name == "" {
-		t.Error("Server name is empty")
+	if scalet.Name == "" {
+		t.Error("Scalet name is empty")
 		return
 	}
 
 	return
 }
 
-func TestServerService_Tasks(t *testing.T) {
+func TestScaletService_Tasks(t *testing.T) {
 
 	token, err := GetToken()
 	if err != nil {
@@ -226,7 +226,7 @@ func TestServerService_Tasks(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.Server.Tasks()
+	_, _, err = client.Scalet.Tasks()
 
 	if err != nil {
 		t.Error(err)
@@ -236,7 +236,7 @@ func TestServerService_Tasks(t *testing.T) {
 	return
 }
 
-func TestServerService_AddSSHKeys(t *testing.T) {
+func TestScaletService_AddSSHKeys(t *testing.T) {
 
 	token, err := GetToken()
 	if err != nil {
@@ -245,7 +245,7 @@ func TestServerService_AddSSHKeys(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.Server.AddSSHKeys(CTID, []int64{AdditionalKeyID})
+	_, _, err = client.Scalet.AddSSHKeys(CTID, []int64{AdditionalKeyID})
 
 	if err != nil {
 		t.Error(err)

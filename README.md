@@ -16,14 +16,14 @@ client := NewClient("token should be here")
 account, _, err := client.Account.Get()
 ```
 
-Some operations with servers can be started both sync and async.
+Some operations with scalets can be started both sync and async.
 
 ```go
 // Second argument is "wait" which expects boolean value
 // true - if you want to wait until the end of operation
 // false - if you want this operation to be handled in background
 client := NewClient("token should be here")
-server, _, err := client.Server.Rebuild(11111, true)
+scalet, _, err := client.Scalet.Rebuild(11111, true)
 ```
 
 ## Tests
