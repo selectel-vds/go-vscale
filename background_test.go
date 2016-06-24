@@ -13,7 +13,7 @@ func TestBackgroundService_ListDataCenters(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	dcs, _, err := client.BackgroundService.ListLocations()
+	dcs, _, err := client.Background.ListLocations()
 	if err != nil {
 		t.Error(err)
 		return
@@ -37,7 +37,7 @@ func TestBackgroundService_ListImages(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	images, _, err := client.BackgroundService.ListImages()
+	images, _, err := client.Background.ListImages()
 	if err != nil {
 		t.Error(err)
 		return

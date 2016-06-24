@@ -16,7 +16,7 @@ func TestDomainTagService_Create(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	tag, _, err := client.DomainTagService.Create(DomainsTagName, []int64{TestDomainID})
+	tag, _, err := client.DomainTag.Create(DomainsTagName, []int64{TestDomainID})
 	if err != nil {
 		t.Error(err)
 		return
@@ -40,7 +40,7 @@ func TestDomainTagService_List(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.DomainTagService.List()
+	_, _, err = client.DomainTag.List()
 	if err != nil {
 		t.Error(err)
 		return
@@ -59,7 +59,7 @@ func TestDomainTagService_Get(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	tag, _, err := client.DomainTagService.Get(DomainsTagID)
+	tag, _, err := client.DomainTag.Get(DomainsTagID)
 	if err != nil {
 		t.Error(err)
 		return
@@ -83,7 +83,7 @@ func TestDomainTagService_Update(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	tag, _, err := client.DomainTagService.Update(DomainsTagID, "new_name", []int64{2541})
+	tag, _, err := client.DomainTag.Update(DomainsTagID, "new_name", []int64{2541})
 	if err != nil {
 		t.Error(err)
 		return
@@ -107,7 +107,7 @@ func TestDomainTagService_Remove(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.DomainTagService.Remove(DomainsTagID)
+	_, _, err = client.DomainTag.Remove(DomainsTagID)
 	if err != nil {
 		t.Error(err)
 		return

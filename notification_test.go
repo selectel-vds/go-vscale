@@ -18,7 +18,7 @@ func TestNotificationService_BillingSettings(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.NotificationService.BillingSettings()
+	_, _, err = client.Notification.BillingSettings()
 	if err != nil {
 		t.Error(err)
 		return
@@ -37,7 +37,7 @@ func TestNotificationService_BillingSettingsUpdate(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, res, err := client.NotificationService.BillingSettingsUpdate(BillingLimit)
+	_, res, err := client.Notification.BillingSettingsUpdate(BillingLimit)
 	data, _ := ioutil.ReadAll(res.Body)
 	log.Println(string(data))
 	if err != nil {

@@ -17,7 +17,7 @@ func TestDomainService_List(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.DomainService.List()
+	_, _, err = client.Domain.List()
 	if err != nil {
 		t.Error(err)
 		return
@@ -36,7 +36,7 @@ func TestDomainService_Create(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	domain, _, err := client.DomainService.Create(TestDomain)
+	domain, _, err := client.Domain.Create(TestDomain)
 	if err != nil {
 		t.Error(err)
 		return
@@ -60,7 +60,7 @@ func TestDomainService_Get(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	domain, _, err := client.DomainService.Get(TestDomainID)
+	domain, _, err := client.Domain.Get(TestDomainID)
 	if err != nil {
 		t.Error(err)
 		return
@@ -84,7 +84,7 @@ func TestDomainService_Update(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	domain, _, err := client.DomainService.Update(TestDomainID, DomainTags)
+	domain, _, err := client.Domain.Update(TestDomainID, DomainTags)
 	if err != nil {
 		t.Error(err)
 		return
@@ -108,7 +108,7 @@ func TestDomainService_Remove(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	status, _, err := client.DomainService.Remove(TestDomainID)
+	status, _, err := client.Domain.Remove(TestDomainID)
 	if err != nil {
 		t.Error(err)
 		return

@@ -28,17 +28,17 @@ type WebClient struct {
 	BaseURL string
 
 	// Services which is used for accessing API
-	AccountService       *AccountService
-	ServerService        *ServerService
-	BackgroundService    *BackgroundService
-	ConfigurationService *ConfigurationService
-	SSHKeyService        *SSHKeyService
-	NotificationService  *NotificationService
-	BillingService       *BillingService
-	DomainService        *DomainService
-	DomainRecordService  *DomainRecordService
-	DomainTagService     *DomainTagService
-	PTRRecordService     *PTRRecordService
+	Account       *AccountService
+	Server        *ServerService
+	Background    *BackgroundService
+	Configuration *ConfigurationService
+	SSHKey        *SSHKeyService
+	Notification  *NotificationService
+	Billing       *BillingService
+	Domain        *DomainService
+	DomainRecord  *DomainRecordService
+	DomainTag     *DomainTagService
+	PTRRecord     *PTRRecordService
 }
 
 type Error struct {
@@ -60,17 +60,17 @@ func NewClient(token string) *WebClient {
 	// TODO Maybe it will be better to add account checking here via token, to be sure that token is valid and user exists
 
 	// Passing client to all services for easy client mocking in future and not passing it to every function
-	client.AccountService = &AccountService{client}
-	client.ServerService = &ServerService{client}
-	client.BackgroundService = &BackgroundService{client}
-	client.ConfigurationService = &ConfigurationService{client}
-	client.SSHKeyService = &SSHKeyService{client}
-	client.NotificationService = &NotificationService{client}
-	client.BillingService = &BillingService{client}
-	client.DomainService = &DomainService{client}
-	client.DomainRecordService = &DomainRecordService{client}
-	client.DomainTagService = &DomainTagService{client}
-	client.PTRRecordService = &PTRRecordService{client}
+	client.Account = &AccountService{client}
+	client.Server = &ServerService{client}
+	client.Background = &BackgroundService{client}
+	client.Configuration = &ConfigurationService{client}
+	client.SSHKey = &SSHKeyService{client}
+	client.Notification = &NotificationService{client}
+	client.Billing = &BillingService{client}
+	client.Domain = &DomainService{client}
+	client.DomainRecord = &DomainRecordService{client}
+	client.DomainTag = &DomainTagService{client}
+	client.PTRRecord = &PTRRecordService{client}
 
 	return client
 

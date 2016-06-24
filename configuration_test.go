@@ -13,7 +13,7 @@ func TestConfigurationService_ListRplans(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	rplans, _, err := client.ConfigurationService.ListRplans()
+	rplans, _, err := client.Configuration.ListRplans()
 	if err != nil {
 		t.Error(err)
 		return
@@ -37,7 +37,7 @@ func TestConfigurationService_ListPrices(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.ConfigurationService.ListPrices()
+	_, _, err = client.Configuration.ListPrices()
 	if err != nil {
 		t.Error(err)
 		return

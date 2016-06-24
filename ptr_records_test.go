@@ -17,7 +17,7 @@ func TestPTRRecordService_Create(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	ptrRecord, _, err := client.PTRRecordService.Create("123123", "1232")
+	ptrRecord, _, err := client.PTRRecord.Create("123123", "1232")
 	if err != nil {
 		t.Error(err)
 		return
@@ -39,7 +39,7 @@ func TestPTRRecordService_List(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.PTRRecordService.List()
+	_, _, err = client.PTRRecord.List()
 
 	if err != nil {
 		t.Error(err)
@@ -58,7 +58,7 @@ func TestPTRRecordService_Get(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	record, _, err := client.PTRRecordService.Get(PTRRecordID)
+	record, _, err := client.PTRRecord.Get(PTRRecordID)
 
 	if err != nil {
 		t.Error(err)
@@ -82,7 +82,7 @@ func TestPTRRecordService_Update(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	ptrRecord, _, err := client.PTRRecordService.Update(PTRRecordID, "example2.com", PTRRecordIP)
+	ptrRecord, _, err := client.PTRRecord.Update(PTRRecordID, "example2.com", PTRRecordIP)
 
 	if err != nil {
 		t.Error(err)
@@ -105,7 +105,7 @@ func TestPTRRecordService_Remove(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.PTRRecordService.Remove(PTRRecordID)
+	_, _, err = client.PTRRecord.Remove(PTRRecordID)
 
 	if err != nil {
 		t.Error(err)
