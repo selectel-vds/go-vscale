@@ -29,7 +29,7 @@ type WebClient struct {
 
 	// Services which is used for accessing API
 	Account       *AccountService
-	Skalet        *SkaletService
+	Scalet        *ScaletService
 	Background    *BackgroundService
 	Configuration *ConfigurationService
 	SSHKey        *SSHKeyService
@@ -61,7 +61,7 @@ func NewClient(token string) *WebClient {
 
 	// Passing client to all services for easy client mocking in future and not passing it to every function
 	client.Account = &AccountService{client}
-	client.Skalet = &SkaletService{client}
+	client.Scalet = &ScaletService{client}
 	client.Background = &BackgroundService{client}
 	client.Configuration = &ConfigurationService{client}
 	client.SSHKey = &SSHKeyService{client}
