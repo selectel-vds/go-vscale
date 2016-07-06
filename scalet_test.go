@@ -54,6 +54,30 @@ func TestScaletService_Create(t *testing.T) {
 	return
 }
 
+func TestScaletService_CreateWithoutPassword(t *testing.T) {
+
+	token, err := GetToken()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	client := NewClient(token)
+	scalet, _, err := client.Scalet.CreateWithoutPassword("ubuntu_16.04_64_001_master", "small", "test-1", "spb0", true, []int64{KeyID}, true)
+
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	if scalet.Name == "" {
+		t.Error("Scalet name can\t be empty")
+		return
+	}
+
+	return
+}
+
 func TestScaletService_Remove(t *testing.T) {
 
 	token, err := GetToken()
