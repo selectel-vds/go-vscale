@@ -93,6 +93,40 @@ func (s *ScaletService) Create(makeFrom, rplan, name, password, location string,
 	return scalet, res, err
 }
 
+func (s *ScaletService) CreateWithoutPassword(makeFrom, rplan, name, location string, doStart bool,
+	keys []int64, wait bool) (*Scalet, *http.Response, error) {
+
+	scalet := new(Scalet)
+
+	conn := new(websocket.Conn)
+	var wsserr error
+
+	if wait {
+		conn, wsserr = s.client.WSSConn()
+		defer conn.Close()
+	}
+
+	body := struct {
+		MakeFrom string  `json:"make_from,omitempty"`
+		Rplan    string  `json:"rplan,omitempty"`
+		DoStart  bool    `json:"do_start,omitempty"`
+		Name     string  `json:"name,omitempty"`
+		Keys     []int64 `json:"keys,omitempty"`
+		Location string  `json:"location,omitempty"`
+	}{makeFrom, rplan, doStart, name, keys, location}
+
+	b, _ := json.Marshal(body)
+
+	res, err := s.client.ExecuteRequest("POST", "scalets", b, scalet)
+
+	if wait && wsserr == nil && res.Header.Get("VSCALE-TASK-ID") != "" {
+		_, err := s.client.WaitTask(conn, res.Header.Get("VSCALE-TASK-ID"))
+		return scalet, res, err
+	}
+
+	return scalet, res, err
+}
+
 func (s *ScaletService) Remove(CTID int64, wait bool) (*Scalet, *http.Response, error) {
 
 	scalet := new(Scalet)
