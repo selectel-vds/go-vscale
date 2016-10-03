@@ -5,10 +5,11 @@ import (
 )
 
 // Test data
-var CTID int64 = 35586
+var CTID int64 = 48149
 var KeyID int64 = 4639
 var AdditionalKeyID int64 = 4674
 var UpgradePlan string = "medium"
+var BackupID string = "2cb27ca9-9fab-4d77-9c05-4bebe3a02980"
 
 func TestScaletService_List(t *testing.T) {
 
@@ -270,6 +271,44 @@ func TestScaletService_AddSSHKeys(t *testing.T) {
 
 	client := NewClient(token)
 	_, _, err = client.Scalet.AddSSHKeys(CTID, []int64{AdditionalKeyID})
+
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	return
+}
+
+func TestScaletService_Backup(t *testing.T) {
+
+	token, err := GetToken()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	client := NewClient(token)
+	_, _, err = client.Scalet.Backup(CTID, "my_new_backup", true)
+
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	return
+}
+
+func TestScaletService_Restore(t *testing.T) {
+
+	token, err := GetToken()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	client := NewClient(token)
+	_, _, err = client.Scalet.Restore(CTID, BackupID, false)
 
 	if err != nil {
 		t.Error(err)

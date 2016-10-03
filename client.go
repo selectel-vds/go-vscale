@@ -39,6 +39,7 @@ type WebClient struct {
 	DomainRecord  *DomainRecordService
 	DomainTag     *DomainTagService
 	PTRRecord     *PTRRecordService
+	Backup        *BackupService
 }
 
 type Error struct {
@@ -71,6 +72,7 @@ func NewClient(token string) *WebClient {
 	client.DomainRecord = &DomainRecordService{client}
 	client.DomainTag = &DomainTagService{client}
 	client.PTRRecord = &PTRRecordService{client}
+	client.Backup = &BackupService{client}
 
 	return client
 
