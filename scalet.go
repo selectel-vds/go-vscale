@@ -26,6 +26,19 @@ type Scalet struct {
 	CTID            int64         `json:"ctid,omitempty"`
 }
 
+type Backup struct {
+	ID       string  `json:"id,omitempty"`
+	Template string  `json:"template,omitempty"`
+	Active   bool    `json:"active"`
+	Name     string  `json:"name"`
+	Scalet   int64   `json:"scalet"`
+	Status   string  `json:"status"`
+	Size     float64 `json:"size"`
+	Locked   bool    `json:"locked"`
+	Location string  `json:"location"`
+	Created  string  `json:"created"`
+}
+
 type Keys struct {
 	Name string `json:"name,omitempty"`
 	ID   int64  `json:"id,omitempty"`
@@ -294,6 +307,62 @@ func (s *ScaletService) AddSSHKeys(CTID int64, keys []int64) (*Scalet, *http.Res
 	b, _ := json.Marshal(body)
 
 	res, err := s.client.ExecuteRequest("PATCH", fmt.Sprint("scalets/", strconv.FormatInt(CTID, 10)), b, scalet)
+
+	return scalet, res, err
+}
+
+func (s *ScaletService) Backup(CTID int64, name string, wait bool) (*[]Backup, *http.Response, error) {
+
+	backups := new([]Backup)
+
+	conn := new(websocket.Conn)
+	var wsserr error
+
+	if wait {
+		conn, wsserr = s.client.WSSConn()
+		defer conn.Close()
+	}
+
+	body := struct {
+		Name string `json:"name,omitempty"`
+	}{name}
+
+	b, _ := json.Marshal(body)
+
+	res, err := s.client.ExecuteRequest("POST", fmt.Sprintf("scalets/%d/backup", CTID), b, backups)
+
+	if wait && wsserr == nil && res.Header.Get("VSCALE-TASK-ID") != "" {
+		_, err := s.client.WaitTask(conn, res.Header.Get("VSCALE-TASK-ID"))
+		return backups, res, err
+	}
+
+	return backups, res, err
+}
+
+func (s *ScaletService) Restore(CTID int64, makeFrom string, wait bool) (*Scalet, *http.Response, error) {
+
+	scalet := new(Scalet)
+
+	conn := new(websocket.Conn)
+	var wsserr error
+
+	if wait {
+		conn, wsserr = s.client.WSSConn()
+		defer conn.Close()
+	}
+
+	body := struct {
+		MakeFrom string `json:"make_from,omitempty"`
+	}{makeFrom}
+
+	b, _ := json.Marshal(body)
+
+	res, err := s.client.ExecuteRequest("PATCH", fmt.Sprintf("scalets/%d/rebuild", CTID), b, scalet)
+
+	if wait && wsserr == nil && res.Header.Get("VSCALE-TASK-ID") != "" {
+		_, err := s.client.WaitTask(conn, res.Header.Get("VSCALE-TASK-ID"))
+		return scalet, res, err
+	}
 
 	return scalet, res, err
 }
