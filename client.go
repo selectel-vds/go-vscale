@@ -104,7 +104,7 @@ func (client *WebClient) ExecuteRequest(method, url string, body []byte, object 
 
 	res.Body = ioutil.NopCloser(bytes.NewBuffer(buf))
 
-	if res.Header.Get("Vscale-Error-Message") != "None" {
+	if res.Header.Get("Vscale-Error-Message") != "None" && res.Header.Get("Vscale-Error-Message") != "" {
 		return res, errors.New(res.Header.Get("Vscale-Error-Message"))
 	}
 
