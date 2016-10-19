@@ -21,8 +21,7 @@ type Rplan struct {
 
 type Prices struct {
 	Default struct {
-		Backup int64 `json:"backup,omitempty"`
-		Huge   struct {
+		Huge struct {
 			Hour  int64 `json:"hour,omitempty"`
 			Month int64 `json:"month,omitempty"`
 		} `json:"huge,omitempty"`
