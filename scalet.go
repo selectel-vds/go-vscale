@@ -15,7 +15,7 @@ type ScaletService struct {
 type Scalet struct {
 	Hostname        string        `json:"hostname,omitempty"`
 	Locked          bool          `json:"locked,omitempty"`
-	Locations       string        `json:"locations,omitempty"`
+	Location        string        `json:"location,omitempty"`
 	Rplan           string        `json:"rplan,omitempty"`
 	Name            string        `json:"name,omitempty"`
 	Active          bool          `json:"active,omitempty"`
