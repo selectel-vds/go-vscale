@@ -43,6 +43,26 @@ type Prices struct {
 			Hour  int64 `json:"hour,omitempty"`
 			Month int64 `json:"month,omitempty"`
 		} `json:"small,omitempty"`
+		Backup20 struct {
+			Hour  int64 `json:"hour,omitempty"`
+			Month int64 `json:"month,omitempty"`
+		} `json:"backup_20,omitempty"`
+		Backup30 struct {
+			Hour  int64 `json:"hour,omitempty"`
+			Month int64 `json:"month,omitempty"`
+		} `json:"backup_30,omitempty"`
+		Backup40 struct {
+			Hour  int64 `json:"hour,omitempty"`
+			Month int64 `json:"month,omitempty"`
+		} `json:"backup_40,omitempty"`
+		Backup60 struct {
+			Hour  int64 `json:"hour,omitempty"`
+			Month int64 `json:"month,omitempty"`
+		} `json:"backup_60,omitempty"`
+		Backup80 struct {
+			Hour  int64 `json:"hour,omitempty"`
+			Month int64 `json:"month,omitempty"`
+		} `json:"backup_80,omitempty"`
 	} `json:"default,omitempty"`
 	Period string `json:"period,omitempty"`
 }
