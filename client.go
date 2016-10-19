@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/websocket"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 )
@@ -40,6 +41,7 @@ type WebClient struct {
 	DomainTag     *DomainTagService
 	PTRRecord     *PTRRecordService
 	Backup        *BackupService
+	ServerTag     *ServerTagService
 }
 
 type Error struct {
@@ -73,6 +75,7 @@ func NewClient(token string) *WebClient {
 	client.DomainTag = &DomainTagService{client}
 	client.PTRRecord = &PTRRecordService{client}
 	client.Backup = &BackupService{client}
+	client.ServerTag = &ServerTagService{client}
 
 	return client
 
@@ -101,21 +104,8 @@ func (client *WebClient) ExecuteRequest(method, url string, body []byte, object 
 
 	res.Body = ioutil.NopCloser(bytes.NewBuffer(buf))
 
-	if res.StatusCode != 200 && res.StatusCode != 204 {
-		data, _ := ioutil.ReadAll(reader)
-
-		APIerror := new(Error)
-
-		json.Unmarshal(data, &APIerror)
-
-		if APIerror.Error != "" {
-			if APIerror.Field != "" {
-				return res, errors.New(fmt.Sprint(APIerror.Field, ": ", APIerror.Error))
-			}
-			return res, errors.New(APIerror.Error)
-		}
-
-		return res, errors.New(string(data))
+	if res.Header.Get("Vscale-Error-Message") != "None" {
+		return res, errors.New(res.Header.Get("Vscale-Error-Message"))
 	}
 
 	if object != nil {
@@ -123,6 +113,7 @@ func (client *WebClient) ExecuteRequest(method, url string, body []byte, object 
 
 		// EOF means empty response body, this error is not needed
 		if err != nil && err != io.EOF {
+			log.Println(err)
 			return res, err
 		}
 	}
