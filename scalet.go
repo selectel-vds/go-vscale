@@ -311,17 +311,9 @@ func (s *ScaletService) AddSSHKeys(CTID int64, keys []int64) (*Scalet, *http.Res
 	return scalet, res, err
 }
 
-func (s *ScaletService) Backup(CTID int64, name string, wait bool) (*Backup, *http.Response, error) {
+func (s *ScaletService) Backup(CTID int64, name string) (*Backup, *http.Response, error) {
 
 	backup := new(Backup)
-
-	conn := new(websocket.Conn)
-	var wsserr error
-
-	if wait {
-		conn, wsserr = s.client.WSSConn()
-		defer conn.Close()
-	}
 
 	body := struct {
 		Name string `json:"name,omitempty"`
@@ -330,11 +322,6 @@ func (s *ScaletService) Backup(CTID int64, name string, wait bool) (*Backup, *ht
 	b, _ := json.Marshal(body)
 
 	res, err := s.client.ExecuteRequest("POST", fmt.Sprintf("scalets/%d/backup", CTID), b, backup)
-
-	if wait && wsserr == nil && res.Header.Get("VSCALE-TASK-ID") != "" {
-		_, err := s.client.WaitTask(conn, res.Header.Get("VSCALE-TASK-ID"))
-		return backup, res, err
-	}
 
 	return backup, res, err
 }

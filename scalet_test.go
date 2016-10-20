@@ -289,7 +289,7 @@ func TestScaletService_Backup(t *testing.T) {
 	}
 
 	client := NewClient(token)
-	_, _, err = client.Scalet.Backup(CTID, "my_new_backup", true)
+	_, _, err = client.Scalet.Backup(CTID, "my_new_backup")
 
 	if err != nil {
 		t.Error(err)
