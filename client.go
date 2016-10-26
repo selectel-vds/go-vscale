@@ -107,8 +107,12 @@ func (client *WebClient) ExecuteRequest(method, url string, body []byte, object 
 	if res.Header.Get("Vscale-Error-Message") != "None" && res.Header.Get("Vscale-Error-Message") != "" {
 		return res, errors.New(res.Header.Get("Vscale-Error-Message"))
 	}
+	
+	if !IsSuccess(res.StatusCode) {
+		return res, errors.New("Not successful status code")
+	}
 
-	if object != nil {
+	if object != nil && res.StatusCode == 200 {
 		err := json.NewDecoder(reader).Decode(object)
 
 		// EOF means empty response body, this error is not needed
