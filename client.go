@@ -112,7 +112,7 @@ func (client *WebClient) ExecuteRequest(method, url string, body []byte, object 
 		return res, errors.New("Not successful status code")
 	}
 
-	if object != nil && res.StatusCode == 200 {
+	if object != nil && (res.StatusCode == 200 || res.StatusCode == 201) {
 		err := json.NewDecoder(reader).Decode(object)
 
 		// EOF means empty response body, this error is not needed
